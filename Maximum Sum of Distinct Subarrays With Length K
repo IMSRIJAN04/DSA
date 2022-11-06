@@ -1,0 +1,46 @@
+class Solution {
+    public long maximumSubarraySum(int[] nums, int k) {
+        
+        int i = 0;
+        int j = k-1;
+        long maxSum = 0; 
+        long curSum = 0;
+        HashMap<Integer, Integer> hm = new HashMap<Integer,Integer>();
+        
+        for(int p = 0; p < k; p++){
+                if(hm.containsKey(nums[p])){
+                    hm.put(nums[p], hm.get(nums[p])+1);
+                }
+                else{
+                    hm.put(nums[p], 1);
+                    
+                }
+            curSum+=(long)nums[p];
+            }
+
+        if(hm.size() == k){
+            maxSum = curSum;
+        }
+        j = k;
+        int left = 0;
+        while(j < nums.length){
+            curSum-=nums[left];
+            hm.put(nums[left], hm.get(nums[left])-1);
+            
+            if(hm.get(nums[left]) == 0){
+                hm.remove(nums[left]);
+            }
+            
+            curSum+=nums[j];
+            hm.put(nums[j], hm.getOrDefault(nums[j],0)+1);
+            
+            if(hm.size() == k){
+                maxSum = Math.max(maxSum, curSum);
+            }
+            left++;
+            j++;
+        }
+        
+      return maxSum;  
+    }
+}
