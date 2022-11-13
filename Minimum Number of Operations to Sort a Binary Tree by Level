@@ -1,0 +1,63 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public int minimumOperations(TreeNode root) {
+        Queue<TreeNode> q = new LinkedList<>();
+        if(root == null) return 0;
+        q.offer(root);
+        int ans = 0;
+        while(!q.isEmpty()){
+            int size = q.size();
+            ArrayList<Integer> level = new ArrayList<>();
+            for(int i = 0; i < size; i++){
+                TreeNode ele = q.poll();
+                level.add(ele.val);
+                if(ele.left != null) q.offer(ele.left);
+                if(ele.right != null) q.offer(ele.right);
+            }
+            ans+= minOps(level);
+        }
+        return ans;
+    }
+    
+    int minOps(ArrayList<Integer> arr){
+        int N = arr.size();
+        int A[] = arr.stream().mapToInt(i -> i).toArray();
+        int[] temp = Arrays.copyOfRange(A, 0, N);
+        Arrays.sort(temp);
+        HashMap<Integer, Integer> hm = new HashMap<>();
+        int ans = 0;
+        for(int i = 0; i < A.length; i++){
+            hm.put(A[i],i);
+        }
+        for(int i = 0; i < A.length; i++){
+            if(A[i] != temp[i]){
+                ans++;
+                int init = A[i];
+                int swapIndex = hm.get(temp[i]);
+                swap(A, i ,swapIndex);
+                hm.put(init, swapIndex);
+                hm.put(temp[i], i);
+            }
+        }
+        return ans;
+    }
+    void swap(int arr[], int i, int j){
+        int temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+    }
+}
