@@ -1,0 +1,26 @@
+class Solution {
+    public int subarrayLCM(int[] nums, int k) {
+        int count = 0;
+        int lcm = nums[0];
+        for(int i = 0; i < nums.length; i++){
+            lcm = nums[i];
+            if(lcm == k) count++;
+            for(int j = i+1; j < nums.length; j++){
+                lcm = lcmFunc(lcm, nums[j]);
+                if(lcm == k) count++;
+                if(lcm > k) break;
+            }
+        }
+        return count;
+    }
+    
+    int lcmFunc(int a, int b){
+        int res = 1;
+        return (a*b)/gcd(a,b);
+    }
+    
+    int gcd(int a, int b){
+        if(a == 0) return b;
+        return gcd(b%a, a);
+    }
+}
