@@ -1,0 +1,81 @@
+//{ Driver Code Starts
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+class GFG {
+    
+    
+	public static void main (String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		int t = Integer.parseInt(br.readLine().trim());
+		while(t-->0){
+		    long n = Long.parseLong(br.readLine().trim());
+		    String inputLine[] = br.readLine().trim().split(" ");
+		    long[] arr = new long[(int)n];
+		    for(int i=0; i<n; i++)arr[i]=Long.parseLong(inputLine[i]);
+		    System.out.println(new Solution().getMaxArea(arr, n));
+		}
+	}
+}
+
+
+
+
+// } Driver Code Ends
+
+
+class Solution
+{
+    //Function to find largest rectangular area possible in a given histogram.
+    public static long getMaxArea(long hist[], long n) 
+    {
+        // your code here
+        long maxArea = Long.MIN_VALUE;
+        int len = (int) n;
+        long next[] = new long[len];
+        long prev[] = new long[len];
+        
+        getNextSmallerElement(hist, next, len);
+        getPrevSmallerElement(hist, prev, len);
+        
+        for(int i=0; i<len; i++){
+            long length = hist[i];
+            long base = -1;
+            if(next[i] == base){
+                next[i] = n;
+            }
+            long breadth = next[i]-prev[i]-1;
+            long area = length*breadth;
+            maxArea = Math.max(area, maxArea);
+        }
+        
+        return maxArea;
+    }
+    
+    static void getNextSmallerElement(long[] hist, long[] next, int n){
+        Stack<Integer> s = new Stack<Integer>();
+        s.push(-1);
+        for(int i = n-1; i >=0; i--){
+            long curr = hist[i];
+            while(s.peek() != -1 && hist[s.peek()] >= curr){
+                s.pop();
+            }
+            next[i] = s.peek();
+            s.push(i);
+        }
+    }
+    
+    static void getPrevSmallerElement(long[] hist, long[] prev, int n){
+        Stack<Integer> s = new Stack<Integer>();
+        s.push(-1);
+        for(int i = 0; i<n; i++){
+            long curr = hist[i];
+            while(s.peek() != -1 && hist[s.peek()] >= curr){
+                s.pop();
+            }
+            prev[i] = s.peek();
+            s.push(i);
+        }
+    }
+}
