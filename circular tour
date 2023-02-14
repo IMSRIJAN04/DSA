@@ -1,0 +1,62 @@
+
+// Brute force
+    int tour(int petrol[], int distance[])
+    {
+	    Queue<Bunk> q = new LinkedList<Bunk>();
+	    for(int i = 0; i < petrol.length; i++){
+	        Bunk obj = new Bunk(i,petrol[i],distance[i]);
+	        q.add(obj);
+	    }
+	    int count = 0;
+	    int currPetrol = 0;
+	    int loopCount = 0;
+	    int indexRef = q.peek().index;
+	    while(count != petrol.length){ 
+	        Bunk currBunk = q.poll();
+	        currPetrol += currBunk.petrol;
+	        currPetrol -= currBunk.distance;
+	        count++;
+	        q.add(currBunk);
+	        
+	        if(currPetrol < 0){
+	            loopCount++;
+	            count = 0;
+	            currPetrol = 0;
+	            indexRef = q.peek().index;
+	        }
+	        
+	        if(loopCount == q.size()){
+	                return -1;
+	        }
+	    }
+	    return indexRef;
+    }
+    
+    
+    // optimal
+    class Solution
+{
+    //Function to find starting point where the truck can start to get through
+    //the complete circle without exhausting its petrol in between.
+    int tour(int petrol[], int distance[])
+    {   int start = 0;
+        int deficit = 0;
+        int balance = 0;
+        for(int i = 0; i < petrol.length; i++){
+            balance += petrol[i] - distance[i];
+            if(balance < 0){
+                start = i+1;
+                deficit += balance;
+                balance = 0;
+            }
+        }
+        
+        if(deficit+balance >= 0){
+            return start;
+        }
+        else{
+            return -1;
+        }
+
+    }
+}
