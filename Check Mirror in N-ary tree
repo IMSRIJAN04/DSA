@@ -1,0 +1,26 @@
+class Solution {
+    static int checkMirrorTree(int n, int e, int[] A, int[] B) {
+        // code here
+        HashMap<Integer, Stack<Integer>> hm = new HashMap<>();
+        for(int i=0; i< 2*e; i=i+2){
+            if(hm.containsKey(A[i])){
+                 hm.get(A[i]).push(A[i+1]);
+            }
+            else{
+                hm.put(A[i], new Stack<Integer>());
+                hm.get(A[i]).push(A[i+1]);
+            }
+        }
+        
+        for(int i=0; i < 2*e; i=i+2){
+            if(!hm.containsKey(B[i])){
+                return 0;
+            }
+            else{
+                if(hm.get(B[i]).peek() != B[i+1]) return 0;
+                hm.get(B[i]).pop();
+            }
+        }
+        return 1;
+    }
+};
