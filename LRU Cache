@@ -1,0 +1,62 @@
+
+
+
+
+
+
+// Implementation with Queue and HashMap
+class LRUCache
+{
+    //Constructor for initializing the cache capacity with the given value.
+    static Deque<Pair> dq;
+    static HashMap<Integer, Pair> hm;
+    static int cap;
+    LRUCache(int cap)
+    {
+        //code here
+        this.dq = new LinkedList<Pair>();
+        this.hm = new HashMap<Integer, Pair>();
+        this.cap = cap;
+    }
+
+    //Function to return value corresponding to the key.
+    public static int get(int key)
+    {
+        // your code here
+        // Iterator<Map.Entry<Integer, Pair>> i = hm.entrySet().iterator();
+        // while(i.hasNext()){
+        //     Map.Entry<Integer, Pair> ent = i.next();
+        //     System.out.println(ent.getKey()+ " "+ ent.getValue().val);
+        // }
+        
+        if(!hm.containsKey(key)) return -1; 
+        Pair entry = hm.get(key);
+        dq.remove(entry);
+        dq.addFirst(entry);
+        return entry.val;
+    }
+
+    //Function for storing key-value pair.
+    public static void set(int key, int value)
+    {
+        // your code here
+        if(hm.containsKey(key)){
+            Pair temp = hm.get(key);
+            dq.remove(temp);
+            hm.remove(key);
+            Pair entry = new Pair(key, value);
+            hm.put(key, entry);
+            dq.addFirst(entry);
+            
+        }
+        else{
+            if(dq.size() == cap){
+                Pair lastEntry = dq.removeLast();
+                hm.remove(lastEntry.key);
+            }
+            Pair newEntry = new Pair(key, value);
+            hm.put(key, newEntry);
+            dq.addFirst(newEntry);
+        }
+    }
+}
