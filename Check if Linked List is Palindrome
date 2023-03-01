@@ -1,0 +1,40 @@
+boolean isPalindrome(Node head) 
+    {
+        //Your code here
+        
+        Node slow = head, fast = head;
+        int count = 0;
+        while(fast != null && fast.next != null){
+            slow = slow.next;
+            fast = fast.next.next;
+            count += 2;
+        }
+        
+        if(fast!=null && fast.next == null){
+            count += 1;
+        }
+        
+        Node temp = head;
+        Node ref = count%2 == 0 ?  reverse(slow) : reverse(slow.next); 
+         while(ref!=null){
+            if(temp.data != ref.data){
+                return false;
+            }
+            temp = temp.next;
+            ref = ref.next;
+        }
+        return true;
+        
+    }
+    
+    Node reverse(Node head){
+        Node prev = null;
+        Node temp = head;
+        while(head != null){
+            temp = head.next;
+            head.next = prev;
+            prev = head;
+            head = temp;
+        }
+        return prev;
+    }
