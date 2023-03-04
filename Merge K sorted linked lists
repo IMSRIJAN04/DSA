@@ -1,0 +1,36 @@
+class Solution
+{
+    //Function to merge K sorted linked list.
+    Node mergeKList(Node[]arr,int K)
+    {
+        //Add your code here.
+        Node temp = arr[0];
+        for(int i = 1; i < K; i++){
+            temp = mergeList(temp, arr[i]);
+        }
+        return temp;
+    }
+    
+    Node mergeList(Node head1, Node head2){
+        Node temp = new Node(-1);
+        Node store = temp;
+        while(head1 != null && head2 != null){
+            if(head1.data < head2.data){
+                temp.next = head1;
+                head1 = head1.next;
+            }
+            else{
+                temp.next = head2;
+                head2 = head2.next;
+            }
+            temp = temp.next;
+        }
+        Node remain = head1 == null ? head2 : head1;
+        while(remain != null){
+            temp.next = remain;
+            temp = temp.next;
+            remain = remain.next;
+        }
+        return store.next;
+    }
+}
