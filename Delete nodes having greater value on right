@@ -1,0 +1,33 @@
+class Solution
+{
+    Node compute(Node head)
+    {
+        // your code here
+        Node revHead = reverse(head);
+        Node temp = revHead;
+        
+        int maxSoFar = temp.data;
+        while(temp != null && temp.next != null){
+            maxSoFar = Math.max(maxSoFar, temp.next.data);
+            if(temp.next.data < maxSoFar){
+                temp.next = temp.next.next;
+            }
+            else
+            {
+                temp = temp.next;
+            }// 3 -> 2 -> 6 -> 5
+        }
+        return reverse(revHead);
+    }
+    
+    Node reverse(Node head){
+        Node temp = null, prev = null;
+        while(head != null){
+            temp = head.next;
+            head.next = prev;
+            prev = head;
+            head = temp;
+        }
+        return prev;
+    }
+}
