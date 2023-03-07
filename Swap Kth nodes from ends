@@ -1,0 +1,45 @@
+class GFG
+{
+    //Function to swap Kth node from beginning and end in a linked list.
+    Node swapkthnode(Node head, int num, int K)
+    {
+        // your code here
+        if(K > num) return head;
+        if(K == num-K+1) return head;
+        Node begPrev = null, endPrev = null;
+        Node beg = head;
+        Node end = head;
+        
+        int i = 1;
+        while(i<K){
+            begPrev = beg;
+            beg = beg.next;
+            i++;
+        }
+        
+        int j = 1;
+        while(j<num-K+1){
+            endPrev = end;
+            end = end.next;
+            j++;
+        }
+        
+        if(begPrev!= null){
+            begPrev.next = end;
+        }
+        if(endPrev != null){
+            endPrev.next = beg;
+        }
+        Node temp = end.next;
+        end.next = beg.next;
+        beg.next = temp;
+        
+        if(K == 1){
+            head = end;
+        }
+        if(K == num){
+            head = beg;
+        }
+        return head;
+    }
+}
