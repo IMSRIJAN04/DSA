@@ -1,0 +1,30 @@
+class Solution
+{ 
+    //Function to convert binary tree into circular doubly linked list.
+    static Node head;
+    static Node prev = null;
+    Node bTreeToClist(Node root)
+    {
+        inOrder(root);
+        prev.right = head;
+        head.left = prev;
+        prev = null;
+        return head;
+    }
+    
+    void inOrder(Node root){
+        if(root == null) return;
+        inOrder(root.left);
+        
+        if(prev == null){
+            head = root;
+        }
+        else{
+            root.left = prev;
+            prev.right = root;
+        }
+        prev = root;
+        inOrder(root.right);
+    }
+    
+}
