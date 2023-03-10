@@ -1,0 +1,21 @@
+class Solution
+{
+    public static void flatten(Node root)
+    {
+        //code here
+        if(root == null) return;
+
+        flatten(root.left);
+        flatten(root.right);
+        Node tempRoot = root;
+        if(tempRoot.left != null){
+            Node temp = tempRoot.right;
+            tempRoot.right = tempRoot.left;
+            tempRoot.left = null;
+            while(tempRoot.right != null){
+                tempRoot = tempRoot.right;
+            }
+            tempRoot.right = temp;
+        }
+    }
+}
