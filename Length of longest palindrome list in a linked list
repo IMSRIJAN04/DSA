@@ -1,0 +1,40 @@
+class GfG
+{
+        public static int maxPalindrome(Node head)
+        {
+          //add code here.
+          if(head == null) return 0;
+          if(head.next == null) return 1;
+          
+          Node node = head;
+          Node prev = null, next = null;
+          int result = 1;
+          while(node != null){
+              next = node.next;
+              node.next = prev;
+              
+              result = Math.max(result, 2 * getCount(prev, next) + 1);
+              result = Math.max(result, 2 * getCount(node, next));
+              
+              prev = node;
+              node = next;
+          }
+          return result;
+        }
+        
+        static int getCount(Node head1, Node head2){
+            int count = 0;
+            if(head1 == null || head2 == null) return 0;
+            while(head1 != null && head2 != null){
+                if(head1.data == head2.data){
+                    count++;
+                }
+                else{
+                    break;
+                }
+                head1 = head1.next;
+                head2 = head2.next;
+            }
+            return count;
+        }
+}
