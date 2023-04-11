@@ -1,0 +1,55 @@
+class Solution {
+    public static ArrayList<Node> findAnagrams(Node head, String s) {
+        // code here
+        ArrayList<Node> result = new ArrayList<>();
+        HashMap<Character, Integer> smap = new HashMap<Character, Integer>();
+        HashMap<Character, Integer> cmap = new HashMap<>();
+        int k = s.length();
+        
+        for(int i = 0; i < k; i++){
+            smap.put(s.charAt(i), smap.getOrDefault(s.charAt(i), 0) + 1);
+        }
+        
+        Node temp = head;
+        int len = 0;
+        while(temp != null){
+            len++;
+            temp = temp.next;
+        }
+        Node curr = head;
+        Node prev = null;
+        temp = curr;
+        for(int i = 0; i < len && curr != null; i++){
+            temp = curr;
+            for(int j = 0; j < k && temp != null; j++){
+                cmap.put(temp.data, cmap.getOrDefault(temp.data, 0) + 1);
+                prev = temp;
+                temp = temp.next;
+            }
+            if(anagram(smap, cmap)){
+                result.add(curr);
+                prev.next = null;
+                curr = temp;
+            }
+            else{
+                curr = curr.next;
+            }
+            cmap.clear();
+        }
+        return result;
+    }
+    
+    static boolean anagram(HashMap<Character, Integer>smap, HashMap<Character, Integer> cmap){
+        if(smap.size() != cmap.size()) return false;
+       
+        for(Map.Entry<Character, Integer> entry : smap.entrySet()){
+            Character key = entry.getKey();
+            Integer value = entry.getValue();
+            
+            if(!cmap.containsKey(key) || cmap.get(key) != value){
+                return false;
+            }
+        }
+        return true;
+    }
+}
