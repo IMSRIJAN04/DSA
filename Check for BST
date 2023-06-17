@@ -1,0 +1,40 @@
+
+
+public class Solution
+{
+    //Function to check whether a Binary Tree is BST or not.
+    static int prevValue;
+    static boolean isBST(Node root)
+    {
+        // code here.
+        if(root == null) return true;
+        prevValue = Integer.MIN_VALUE;
+        int currValue = root.data;
+        return checkBST(root, currValue);
+        
+    }
+    
+    static boolean checkBST(Node root, int currValue){
+        if(root == null) return true;
+        
+        boolean res = checkBST(root.left, currValue);
+        if(res == false) return false;
+        
+        currValue = root.data;
+        if(prevValue < currValue)
+        {
+            // System.out.println(" "+ prevValue + " " + currValue);
+            prevValue = currValue;
+        } 
+        else
+        {
+            // System.out.println("here");
+            return false;
+        }
+        
+        res = checkBST(root.right, currValue);
+        if(res == false) return false;
+        
+        return true;
+    }
+}
