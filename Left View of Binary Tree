@@ -19,3 +19,35 @@ class Tree
         return res;
     }
 }
+
+// Using Queue
+class Tree
+{
+    //Function to return list containing elements of left view of binary tree.
+    ArrayList<Integer> leftView(Node root)
+    {
+      // Your code here
+      //left view is first element in each level order traversal -> 
+      ArrayList<Integer> res = new ArrayList<Integer>();
+      if(root == null) return res;
+      Queue<Node> q = new LinkedList<Node>();
+      q.offer(root);
+      Node dummy = new Node(-1);
+      q.offer(dummy);
+      res.add(root.data);
+      
+      while(!q.isEmpty()){
+          Node temp = q.poll();
+          if(temp.data != -1){
+              if(temp.left != null) q.offer(temp.left);
+              if(temp.right != null) q.offer(temp.right);
+          }
+          else{
+              if(q.isEmpty()) break;
+              res.add(q.peek().data);
+              q.offer(temp);
+          }
+      }
+      return res;
+    }
+}
