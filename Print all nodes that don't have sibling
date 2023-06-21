@@ -1,0 +1,25 @@
+class Tree
+{
+    ArrayList<Integer> noSibling(Node node)
+    {
+        // code here
+        ArrayList<Integer> res = new ArrayList<Integer>();
+        if(node == null) return res;
+        int rootData = node.data;
+        noSiblingUtil(node, res);
+        if(res.contains(rootData)) res.remove(rootData);
+        if(res.size() == 0) res.add(-1);
+        // System.out.println(res);
+        Collections.sort(res);
+        return res;
+        
+    }
+    
+    void noSiblingUtil(Node node, ArrayList<Integer> res){
+        if(node == null) return;
+        if(node.left != null && node.right == null) res.add(node.left.data);
+        if(node.right != null && node.left == null) res.add(node.right.data);
+        noSiblingUtil(node.left, res);
+        noSiblingUtil(node.right, res);
+    }
+}
