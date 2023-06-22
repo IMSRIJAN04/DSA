@@ -1,0 +1,26 @@
+class BST
+{   
+    //Function to find the lowest common ancestor in a BST. 
+	Node LCA(Node root, int n1, int n2)
+	{
+        // code here.
+        int temp = Math.max(n1, n2);
+        n1 = Math.min(n1, n2);
+        n2 = temp;
+        if(root == null) return root;
+        return LCAUtil(root, n1, n2);
+    }
+    
+    Node LCAUtil(Node root, int n1, int n2){
+
+        if(root == null) return root;
+
+        if(n1 < root.data && n2 < root.data){
+            return LCAUtil(root.left, n1, n2);
+        } 
+        if(n1 > root.data && n2 > root.data){
+            return LCAUtil(root.right, n1, n2);
+        } 
+        return root;
+    }
+}
