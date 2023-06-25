@@ -1,0 +1,19 @@
+class Tree
+{
+    
+    int countLeaves(Node node) 
+    {
+         // Your code  
+         if(node == null) return 0;
+         ArrayList<Integer> res = new ArrayList<Integer>();
+         return Leaves(node, 0);
+    }
+    
+    int Leaves(Node node, int res){
+        if(node == null) return res;
+        res = Leaves(node.left, res);
+        if(node.left == null && node.right == null) res++;
+        res = Leaves(node.right, res);
+        return res;
+    }
+}
