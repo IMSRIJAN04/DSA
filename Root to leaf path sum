@@ -1,0 +1,23 @@
+class Solution {
+    /*you are required to complete this function */
+    int currSum = 0;
+    boolean hasPathSum(Node root, int S) {
+        // Your code here
+        // int currSum = 0;
+        return pathSum(root, S);
+    }
+    
+    boolean pathSum(Node root, int S){
+        if(root == null) return false;
+        boolean res = false;
+        int subSum = S - root.data;
+        
+        if(subSum == 0 && root.left == null && root.right == null){
+            res = true;
+            return res;
+        }
+        if(root.left != null) res = res || pathSum(root.left, subSum);
+        if(root.right != null) res = res || pathSum(root.right, subSum);
+        return res;
+    }
+}
