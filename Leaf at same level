@@ -1,0 +1,22 @@
+class Solution
+{
+    boolean check(Node root)
+    {
+	// Your code here
+	    if(root == null) return false;  
+	    Set<Integer> level = new HashSet<Integer>();
+	    level(root, 0, level);
+	    return level.size() == 1 ? true : false;
+    }
+    
+    void level(Node root, Integer prevLevel, Set<Integer> level){
+        if(root == null || level.size() > 1) return;
+        
+        if(root.left == null && root.right == null){
+            level.add(prevLevel);
+            if(level.size() > 1) return;
+        }
+        level(root.left, prevLevel + 1, level);
+        level(root.right, prevLevel + 1, level);
+    }
+}
