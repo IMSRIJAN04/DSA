@@ -1,0 +1,56 @@
+class Solution {
+    private int low, maxLen;
+    void extendPalindrome(String s, int left, int right){
+        while(left >= 0 && right < s.length() && s.charAt(left) == s.charAt(right)){
+            left--;
+            right++;
+        }
+        if(maxLen < right - left - 1){
+            maxLen = right - left - 1;
+            low = left + 1;
+        }
+    }
+    public String longestPalindrome(String s) {
+        if(s.length() < 2) return s;
+        for(int i = 0; i < s.length()-1; i++){
+            //even palindrome like abba
+            extendPalindrome(s, i, i+1);
+            //odd palindrome aba, abcba
+            extendPalindrome(s, i, i);
+        }
+        return s.substring(low, low + maxLen);
+    }
+}
+
+// My initial solution 
+public String longestPalindrome(String s) {
+        int left = 0;
+        int right = 0;
+        int currLength = 0;
+        StringBuilder result = new StringBuilder(Character.toString(s.charAt(0)));
+        for(int i = 0; i < s.length()-1; i++){
+            left = i;
+            right = i + 1;
+            while(left >= 0 && right < s.length() && s.charAt(left) == s.charAt(right)){
+                currLength = right - left + 1;
+                if(result.length() < currLength){
+                    result.setLength(0);
+                    result.append(s.substring(left, right+1));
+                }
+                left--;
+                right++;
+            }
+            left = i-1;
+            right = i + 1;
+            while(left >= 0 && right < s.length() && s.charAt(left) == s.charAt(right)){
+                currLength = right - left + 1;
+                if(result.length() < currLength){
+                    result.setLength(0);
+                    result.append(s.substring(left, right+1));
+                }
+                left--;
+                right++;
+            }
+        }
+        return result.toString();
+    }
